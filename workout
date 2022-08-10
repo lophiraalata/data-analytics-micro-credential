@@ -1,0 +1,61 @@
+-------------------------------------------------------------------
+-- WARM UPS: Type the following commands to build muscle memory. --
+-------------------------------------------------------------------
+-- 1. [Grouping by multiple columns]: SELECT state, zipcode, COUNT(id) FROM purchases GROUP BY state, zipcode;
+SELECT state, zipcode, COUNT(user_id)
+FROM purchases
+GROUP BY state, zipcode;
+
+-- 2. [Group by using a HAVING filter]: SELECT state, COUNT(id) FROM purchases GROUP BY state HAVING COUNT(id) > 100;
+SELECT state, COUNT(user_id) 
+FROM purchases
+GROUP BY state
+HAVING COUNT(user_id) > 100;
+
+-- 3. [Multiple-value subquery]: SELECT * FROM purchases WHERE user_id IN (SELECT user_id FROM users WHERE email LIKE '%@gmail.com');
+SELECT * 
+FROM purchases
+WHERE user_id IN (SELECT user_id FROM users WHERE email LIKE '%gmail.com');
+
+-- 4. [Using alias in filter]: SELECT name, email FROM users AS u JOIN purchases AS p ON p.user_id=u.id WHERE u.email LIKE '%@gmail.com';
+SELECT name, email
+FROM users as u
+JOIN purchases AS p ON p.user_id=u.user_id 
+WHERE u.email LIKE '%@gmail.com';
+
+--------------------------------------------------------
+-- EXERCISES: Answer using the techniques from above. --
+--------------------------------------------------------
+-- 1. Find the most recent purchase made by each user.
+SELECT name, created_at
+FROM purchases
+GROUP BY purchases.name, purchases.created_at
+ORDER BY purchases.created_at DESC;
+
+-- 3. Find the oldest purchase made by a user with a yahoo email address.
+SELECT * from purchases
+WHERE user_id IN (SELECT user_id FROM users 
+WHERE email LIKE '%gmail.com')
+ORDER BY created_at
+LIMIT 1;
+
+-- 4. Find all the users' emails who made at least one purchase from the state of NYSELECT name, 
+SELECT * FROM users WHERE user_id IN
+(SELECT user_id FROM purchases WHERE state = 'NY');
+
+----------------------------------------
+-- EXTRA CREDIT: If you finish early. --
+----------------------------------------
+-- 1. Use the DATEPART() function to find the number of users created
+--    during each day of the week.
+--    Hint: Use DW as the first input
+SELECT DATE_PART('dow', created_at) +1, COUNT(*)
+FROM users 
+GROUP BY DATE_PART ('dow', created_at) +1 
+ORDER BY 1
+
+-- 2. How about each day of the month?
+SELECT DATE_PART('d', created_at) +1, COUNT(*)
+FROM users 
+GROUP BY DATE_PART ('d', created_at) +1 
+ORDER BY 1
