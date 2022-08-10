@@ -1,0 +1,29 @@
+-------------------------------------------------------------------
+-- WARM UPS: Type the following commands to build muscle memory. --
+-------------------------------------------------------------------
+-- 1. [Single-value subquery]: select * from purchase_items where price = (select max(price) from products)
+select * from purchase_items where price = (select max(price) from products);
+
+-- 2. [Multiple-value subquery]: select * from purchases where user_id in (select user_id from users where email like '%@yahoo.com') or (select user_id from users where email like '%@gmail.com');
+-- select * from purchases where user_id in (select user_id) from users where email like '%yahoo.com) or (select user_id from users where email like '%gmail.com');
+
+--------------------------------------------------------
+-- EXERCISES: Answer using the techniques from above. --
+--------------------------------------------------------
+-- 1. Select the products that cost more than average.
+-- SELECT * FROM products;
+-- SELECT AVG(price) FROM products;
+-- average rpie is $109.03
+
+-- 2. Find all the purchase_items that represent orders for the lowest-priced product.
+-- SELECT * from purchase_items WHERE price = ((SELECT MIN(price) FROM products));
+select * from purchase_items;
+select * from products;
+select MIN(price) FROM products;
+
+-- 3. Find the most recent purchase made by a user with a Gmail email address.
+SELECT * FROM purchases WHERE user_id IN (SELECT user_id FROM users WHERE email LIKE '%gmail.com')
+
+-- 4. List the titles of the products that were ever returned in quantities greater than 4.
+-- SELECT * FROM products;
+-- SELECT * FROM purchase_items
