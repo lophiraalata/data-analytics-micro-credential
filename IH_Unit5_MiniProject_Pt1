@@ -1,0 +1,44 @@
+-- SQL Mini Project 
+-- Pt. 1
+
+-- 0.1. Create a videos table 
+-- This table should include a unique ID, the title of the video, the length in
+-- minutes, and the URL. Populate the table with at least three related videos 
+-- from YouTube or other publically available resource
+
+CREATE TABLE videos (
+	unique_id serial PRIMARY KEY,
+	title VARCHAR(100) UNIQUE NOT NULL,
+	vid_length INT NOT NULL,
+	url VARCHAR(355) UNIQUE NOT NULL);
+	
+INSERT INTO videos (unique_id, title, vid_length, url) 
+	VALUES 	('01', 'Populating PostgreSQL tables using pgAdmin', 3.57, 'https://www.youtube.com/watch?v=SNFlOYStFQQ'),
+			('02', 'Intro To PostgreSQL Databases With PgAdmin For Beginners - Full Course', 55.24, 'https://www.youtube.com/watch?v=Dd2ej-QKrWY'),
+			('03', 'SQL Joins Explained |¦| Joins in SQL |¦| SQL Tutorial', 10.25, 'https://www.youtube.com/watch?v=9yeOJ0ZMUYw'),
+			('04', 'Database Indexing Explained (with PostgreSQL)', 18.18, 'https://www.youtube.com/watch?v=-qNSXK7s7_w');
+
+ --0.2. Create and populate Reviewers table
+ --Create a second table that provides at least two user reviews for each of at 
+ --least two of the videos. These should be imaginary reviews that include columns 
+--for the user’s name (“Asher”, “John”, etc.), the rating (which could be NULL, 
+ --or a number between 0 and 5), and a short text review (“Loved it!”). There
+ --should be a column that links back to the ID column in the table of videos.
+
+CREATE TABLE Reviewers (
+	unique_id INT REFERENCES videos(unique_id),
+	user_name VARCHAR(255),
+	rating INT, 
+	text_review VARCHAR(355) NOT NULL);
+
+INSERT INTO Reviewers (user_name, rating, text_review)
+	VALUES 	('Vinny', 5, 'Great video!'),
+			('Fernando', 4, 'A good example of how difficult it is');
+
+-- 0.3. Report on Video Reviews
+-- Write a JOIN statement that shows information from both tables.
+	
+SELECT * 
+FROM videos as v
+JOIN Reviewers as R
+	ON R.unique_id=v.unique_id
