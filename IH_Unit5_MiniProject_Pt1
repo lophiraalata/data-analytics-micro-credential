@@ -9,7 +9,7 @@
 CREATE TABLE videos (
 	unique_id serial PRIMARY KEY,
 	title VARCHAR(100) UNIQUE NOT NULL,
-	vid_length INT NOT NULL,
+	vid_length NUMERIC NOT NULL,
 	url VARCHAR(355) UNIQUE NOT NULL);
 	
 INSERT INTO videos (unique_id, title, vid_length, url) 
