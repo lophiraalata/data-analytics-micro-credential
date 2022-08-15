@@ -1,0 +1,99 @@
+-- SQL Mini Project 
+-- Pt. 2
+
+-- 0.1 Create an Insurance database
+
+CREATE DATABASE insurance
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    CONNECTION LIMIT = -1;
+
+-- 0.2 Create Insurance tables
+-- Please follow the sample tables to create a table with appropriate columns and data types.
+-- Identify primary and foreign keys in each table and establish relationship between them
+-- Bonus - ER diagram in power point
+
+CREATE TABLE products (
+	product_id INT PRIMARY KEY,
+	title VARCHAR(255),
+	price NUMERIC,
+	created_at TIMESTAMP WITH TIME ZONE,
+	deleted_at TIMESTAMP WITH TIME ZONE,
+	tags VARCHAR(255));
+
+CREATE TABLE purchase_items (
+	purchase_items_id INT NOT NULL,
+	purchase_id INT,
+	FOREIGN KEY (product_id) REFERENCES products(product_id),
+	price NUMERIC,
+	quantity INT,
+	status VARCHAR(255) COLLATE pg_catalog."default");
+	
+CREATE TABLE purchases (
+	purchase_id INT NOT NULL PRIMARY KEY,
+	created_at TIMESTAMP WITH TIME ZONE,
+	name VARCHAR(255) COLLATE pg_catalog."default",
+	address VARCHAR(255) COLLATE pg_catalog."default",
+	state VARCHAR(2) COLLATE pg_catalog."default",
+	zipcode INT,
+	user_id INT);
+	
+CREATE TABLE users (
+	FOREIGN KEY (user_id) REFERENCES purchases(user_id),
+	email VARCHAR(255) COLLATE pg_catalog."default",
+	password VARCHAR(255) COLLATE pg_catalog."default",
+	created_at TIMESTAMP WITH TIME ZONE,
+	deleted_at TIMESTAMP WITH TIME ZONE);
+	
+
+-- 0.3 Populate Insurance tables with sample data which you created in above step
+-- Insert script for each table
+-- Populate each table with sample data (provided)
+-- Feel free to add more sample data wherever applicable
+
+INSERT INTO purchase_items (purchase_items_id, purchase_id, product_id, price, quantity, status)
+	SELECT 'purchase_items_id', 'purchase_id', 'product_id', 'price', 'quantity', 'status'
+	FROM purchase_items.purchase_items_id, purchase_items.purchase_id, purchase_items.product_id, purchase_items.price, purchase_items.quantity, purchase_items.status
+--	;
+-- I first tried to poulate the newly created tables using the data from our demo database but I was unable
+-- to figure out how to link tables in separate databases. The above code is my initial attempt.
+
+-- populating purchase_items table
+
+--INSERT INTO PURCHASE_ITEMS VALUES (2,1,3,27.99,1,'Delivered');
+--INSERT INTO PURCHASE_ITEMS VALUES (3,1,8,108.00,1,'Delivered');
+--INSERT INTO PURCHASE_ITEMS VALUES (4,2,1,9.99,2,'Delivered');
+--etc.
+
+-- populating purchases table
+
+--INSERT INTO PURCHASES VALUES (1, '2011-03-16 10:03:00','Harrison Jonson','"6425 43rd St."','FL','50382',7);
+--INSERT INTO PURCHASES VALUES (2, '2011-09-14 00:00:00','Cortney Fontanilla','"321 MLK Ave."','WA','43895',30);
+--INSERT INTO PURCHASES VALUES (3, '2011-09-11 00:54:00','Ruthie Vashon','"2307 45th St."','GA','98937',18);
+--etc.
+
+-- 0.4 Form any 5 SQL to extract information from tables
+-- Join
+
+SELECT * 
+FROM purchases as p
+JOIN purchase_items as pi
+	ON p.purchase_id=pi.purchase_id
+
+-- Where
+
+SELECT * 
+FROM products 
+WHERE price < 10 ORDER by price DESC;
+
+-- Other conditional operators
+
+SELECT * 
+FROM purchase_items;
+
+SELECT DISTINCT price 
+FROM products;
+
+SELECT MIN(price) 
+FROM products;
