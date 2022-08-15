@@ -1,0 +1,62 @@
+-- SQL Mini Project 
+-- Pt. 2
+
+-- 0.1 Create an Insurance database
+
+CREATE DATABASE insurance
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    CONNECTION LIMIT = -1;
+
+-- 0.2 Create Insurance tables
+-- Please follow the sample tables to create a table with appropriate columns and data types.
+-- Identify primary and foreign keys in each table and establish relationship between them
+-- Bonus - ER diagram in power point
+
+CREATE TABLE products (
+	product_id INT PRIMARY KEY,
+	title VARCHAR(255),
+	price NUMERIC,
+	created_at TIMESTAMP WITH TIME ZONE,
+	deleted_at TIMESTAMP WITH TIME ZONE,
+	tags VARCHAR(255));
+
+CREATE TABLE purchase_items (
+	purchase_items_id INT NOT NULL,
+	purchase_id INT,
+	FOREIGN KEY (product_id) REFERENCES products(product_id),
+	price NUMERIC,
+	quantity INT,
+	status VARCHAR(255) COLLATE pg_catalog."default");
+	
+CREATE TABLE purchases (
+	purchase_id INT NOT NULL,
+	created_at TIMESTAMP WITH TIME ZONE,
+	name VARCHAR(255) COLLATE pg_catalog."default",
+	address VARCHAR(255) COLLATE pg_catalog."default",
+	state VARCHAR(2) COLLATE pg_catalog."default",
+	zipcode INT,
+	user_id INT);
+	
+CREATE TABLE users (
+	user_id INT PRIMARY KEY,
+	email VARCHAR(255) COLLATE pg_catalog."default",
+	password VARCHAR(255) COLLATE pg_catalog."default",
+	created_at TIMESTAMP WITH TIME ZONE,
+	deleted_at TIMESTAMP WITH TIME ZONE);
+	
+
+-- 0.3 Populate Insurance tables with sample data which you created in above step
+-- Insert script for each table
+-- Populate each table with sample data (provided)
+-- Feel free to add more sample data wherever applicable
+
+--INSERT INTO insurance_products ()
+--	VALUES ()
+
+-- 0.4 Form any 5 SQL to extract information from tables
+-- Use
+-- Join
+-- Where
+-- Other conditional operators
